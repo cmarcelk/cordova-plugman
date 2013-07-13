@@ -5,6 +5,18 @@ The `plugin.xml` file is an XML document in the plugins namespace -
 element defining the plugin, and children that define the structure of the
 plugin.
 
+## Schema
+
+There is a schema available that can be used to validate your plugin.xml file:
+
+  plugin.xsd
+
+You can use this with a XML tool command, such as:
+
+  xmllint --noout --schema plugin.xsd plugin.xml
+
+## &lt;plugin&gt; element
+
 A sample plugin element:
 
 	<?xml version="1.0" encoding="UTF-8"?>
@@ -12,9 +24,6 @@ A sample plugin element:
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="com.alunny.foo"
         version="1.0.2">
-
-
-## &lt;plugin&gt; element
 
 The `plugin` element is the top-level element of the plugin manifest. It has the
 following attributes:
@@ -185,7 +194,7 @@ Platform names should be all-lowercase. Platform names, as arbitrarily chosen,
 are listed:
 
 * android
-* bb10
+* blackberry10
 * ios
 * wp7
 * wp8

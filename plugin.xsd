@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+       Licensed to the Apache Software Foundation (ASF) under one
+       or more contributor license agreements.  See the NOTICE file
+       distributed with this work for additional information
+       regarding copyright ownership.  The ASF licenses this file
+       to you under the Apache License, Version 2.0 (the
+       "License"); you may not use this file except in compliance
+       with the License.  You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing,
+       software distributed under the License is distributed on an
+       "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+       KIND, either express or implied.  See the License for the
+       specific language governing permissions and limitations
+       under the License.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://cordova.apache.org/ns/plugins/1.0"
+            xmlns="http://cordova.apache.org/ns/plugins/1.0"
+            elementFormDefault="qualified">
+
+  <xsd:annotation>
+    <xsd:documentation xml:lang="en">
+      Schema for version 1 of the plugin.xml file that should accompany each Cordova plugin.
+    </xsd:documentation>
+  </xsd:annotation>
+
+  <xsd:simpleType name="platforms">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="android" />
+      <xsd:enumeration value="blackberry10" />
+      <xsd:enumeration value="ios" />
+      <xsd:enumeration value="wp7" />
+      <xsd:enumeration value="wp8" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="domain-style">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[a-z0-9\.]+" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="version">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="\d+\.\d+\.\d+" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="version-flex">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[&lt;&gt;]?=?\d+\.\d+\.\d+" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="nospace-name">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[a-zA-Z0-9\.\-]+" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="archs">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="device" />
+      <xsd:enumeration value="simulator" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="js-module">
+    <xsd:choice minOccurs="0">
+      <xsd:element name="clobbers">
+        <xsd:complexType>
+          <xsd:attribute name="target" type="xsd:string" use="required" />
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="merges">
+        <xsd:complexType>
+          <xsd:attribute name="target" type="xsd:string" use="required" />
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="runs" />
+    </xsd:choice>
+    <xsd:attribute name="src" type="xsd:string" use="required" />
+    <xsd:attribute name="name" type="nospace-name" use="required" />
+  </xsd:complexType>
+
+  <xsd:complexType name="asset">
+    <xsd:attribute name="src" type="xsd:string" use="required" />
+    <xsd:attribute name="target" type="xsd:string" use="required" />
+  </xsd:complexType>
+
+  <xsd:complexType name="source-file">
+    <xsd:attribute name="src" type="xsd:string" use="required" />
+    <xsd:attribute name="target-dir" type="xsd:string" use="optional" />
+    <xsd:attribute name="framework" type="xsd:boolean" use="optional" />
+    <xsd:attribute name="compiler-flags" type="xsd:string" use="optional" />
+  </xsd:complexType>
+
+  <xsd:complexType name="file-for-platform">
+    <xsd:attribute name="src" type="xsd:string" use="required" />
+  </xsd:complexType>
+
+  <xsd:complexType name="config-file">
+    <xsd:sequence>
+      <xsd:any namespace="##any" maxOccurs="unbounded" processContents="skip" />
+    </xsd:sequence>
+    <xsd:attribute name="target" type="xsd:string" use="required" />
+    <xsd:attribute name="parent" type="xsd:string" use="required" />
+  </xsd:complexType>
+
+  <xsd:element name="plugin">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="engines" minOccurs="0">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="engine" maxOccurs="unbounded">
+                <xsd:complexType>
+                  <xsd:attribute name="name" type="xsd:string" use="required" />
+                  <xsd:attribute name="version" type="version-flex" use="required" />
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="name" type="nospace-name" />
+        <xsd:element name="asset" type="asset" minOccurs="0" maxOccurs="unbounded" />
+        <xsd:element name="js-module" type="js-module" minOccurs="0" maxOccurs="unbounded" />
+        <xsd:element name="dependency" minOccurs="0" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:attribute name="id" type="domain-style" use="required" />
+            <xsd:attribute name="url" type="xsd:anyURI" use="required" />
+            <xsd:attribute name="commit" type="xsd:string" use="required" />
+            <xsd:attribute name="subdir" type="xsd:string" use="required" />
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="resource-file" type="file-for-platform" minOccurs="0" maxOccurs="unbounded" />
+        <xsd:element name="header-file" type="file-for-platform" minOccurs="0" maxOccurs="unbounded" />
+        <xsd:element name="source-file" type="source-file" minOccurs="0" maxOccurs="unbounded" />
+        <xsd:element name="config-file" type="config-file" minOccurs="0" maxOccurs="unbounded" />
+        <xsd:element name="platform" minOccurs="0" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="asset" type="asset" minOccurs="0" maxOccurs="unbounded" />
+              <xsd:element name="js-module" type="js-module" minOccurs="0" maxOccurs="unbounded" />
+              <xsd:element name="source-file" type="source-file" minOccurs="0" maxOccurs="unbounded" />
+              <xsd:element name="config-file" type="config-file" minOccurs="0" maxOccurs="unbounded" />
+              <!-- plugins-plist has been removed -->
+              <xsd:element name="resource-file" type="file-for-platform" minOccurs="0" maxOccurs="unbounded" />
+              <xsd:element name="header-file" type="file-for-platform" minOccurs="0" maxOccurs="unbounded" />
+              <xsd:element name="lib-file" minOccurs="0" maxOccurs="unbounded">
+                <xsd:complexType>
+                  <xsd:attribute name="src" type="xsd:string" use="required" />
+                  <xsd:attribute name="arch" type="archs" use="required" />
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="framework" minOccurs="0" maxOccurs="unbounded">
+                <xsd:complexType>
+                  <xsd:attribute name="src" type="xsd:string" use="required" />
+                  <xsd:attribute name="weak" type="xsd:boolean" use="optional" />
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="info" type="xsd:string" minOccurs="0" maxOccurs="1" />
+            </xsd:sequence>
+            <xsd:attribute name="name" type="platforms" use="required" />
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+      <xsd:attribute name="id" type="domain-style" use="required" />
+      <xsd:attribute name="version" type="version" use="required" />
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>
+
