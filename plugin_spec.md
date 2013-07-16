@@ -7,13 +7,15 @@ plugin.
 
 ## Schema
 
-There is a schema available that can be used to validate your plugin.xml file:
+There is a schema available that can be used to validate your plugin.xml file.
+The filename of the schema is plugin.xsd.
 
-  plugin.xsd
+You can use this schema with an XML tool command, such as:
 
-You can use this with a XML tool command, such as:
+    xmllint --noout --schema plugin.xsd plugin.xml
 
-  xmllint --noout --schema plugin.xsd plugin.xml
+As a plugin developer, it is recommended that you validate your plugin.xml against the
+schema before you publish your plugin, if not earlier.
 
 ## &lt;plugin&gt; element
 
@@ -65,11 +67,11 @@ conforming to the regular expression:
 
 Engine elements may also have fuzzy matches to avoid repetition, and reduce
 maintenance when the underlying platform is updated. A minimum of `>`, `>=`,
-`<` and `<=` should be supported by tools, such as:
+`<` and `<=` should be supported by tools (they need to be escaped), such as:
 
     <engines>
-        <engine name="cordova" version=">=1.7.0" />
-        <engine name="cordova" version="<1.8.1" />
+        <engine name="cordova" version="&gt;=1.7.0" />
+        <engine name="cordova" version="&lt;1.8.1" />
     </engines>
 
 plugman will abort plugin installation if the target project does not meet the engine constraints, and exit with a non-zero code.
