@@ -127,7 +127,7 @@
             </xsd:sequence>
           </xsd:complexType>
         </xsd:element>
-        <xsd:element name="name" type="nospace-name" />
+        <xsd:element name="name" type="xsd:string" />
         <xsd:element name="asset" type="asset" minOccurs="0" maxOccurs="unbounded" />
         <xsd:element name="js-module" type="js-module" minOccurs="0" maxOccurs="unbounded" />
         <xsd:element name="dependency" minOccurs="0" maxOccurs="unbounded">
@@ -142,6 +142,7 @@
         <xsd:element name="header-file" type="file-for-platform" minOccurs="0" maxOccurs="unbounded" />
         <xsd:element name="source-file" type="source-file" minOccurs="0" maxOccurs="unbounded" />
         <xsd:element name="config-file" type="config-file" minOccurs="0" maxOccurs="unbounded" />
+        <xsd:element name="info" type="xsd:string" minOccurs="0" />
         <xsd:element name="platform" minOccurs="0" maxOccurs="unbounded">
           <xsd:complexType>
             <xsd:sequence>
